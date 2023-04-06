@@ -161,15 +161,6 @@ public class Solver {
 		File output = new File(args[1]);
 		// Write the solution path to file
 	    writeSolutionToFile(solution, output.toString());
-		
-//		// Solve the puzzle and get the solution
-//		List<String> solutionPath = solvePuzzle("/Users/tran/Desktop/CMPT 225/cmpt225-spring23-project/testcases/board27.txt");
-//	    
-//	    // Write the solution to the output file
-//	    String outputFileName = "output.txt";
-//	    writeSolutionToFile(solutionPath, outputFileName);
-//	    
-//	    // Print a success message
-//	    System.out.println("Solution written to " + outputFileName);
+	
 	}
 }
