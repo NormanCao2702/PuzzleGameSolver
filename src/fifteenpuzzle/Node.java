@@ -1,41 +1,33 @@
 package fifteenpuzzle;
 
 public class Node implements Comparable<Node> {
-	private int[][] state;
+	private byte[][] state;
     private int h; // heuristic cost from this node to goal state
-    private int f; // estimated total cost (f = g + h)
     private Node parent;
     private String move;
     
-    public Node(int[][] state, Node parent, String move) {
+    public Node(byte[][] state, Node parent, String move) {
         this.state = state;
         this.h = calculateManhattanDistance();
-        this.f = h;
         this.parent = parent;
         this.move = move;
     }
 
     
-    public int[][] getState() {
+    public byte[][] getState() {
         return state;
     }
     
-    public void setF(int F) {
-    	this.f = F;
-    }
-
 
     public int getH() {
         return h;
     }
 
-    public int getF() {
-        return f;
-    }
 
     public Node getParent() {
         return parent;
     }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -53,6 +45,7 @@ public class Node implements Comparable<Node> {
         return true;
     }
     
+    @Override
     public int hashCode() {
         // Generate a unique hash code for this node based on its state
     	int code = 0;
@@ -65,18 +58,40 @@ public class Node implements Comparable<Node> {
         return code;
     }
 
-    public int calculateManhattanDistance() {
+    private int calculateManhattanDistance(){
         int distance = 0;
-        int n = state.length; //board size
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                int value = this.state[i][j];
-                if (value != 0) {
-                    int goalRow = (value - 1) / n; //the right row position
-                    int goalCol = (value - 1) % n; //the right column position
-                    distance += Math.abs(i - goalRow) + Math.abs(j - goalCol); //estimate how far that tile needs to go to the right position
+        int targetRow, targetCol;
+        for (int row = 0; row < state.length; row++) {
+            for (int col = 0; col < state.length; col++) {
+                int value = state[row][col];
+                if (value == 0) {
+                    continue;
+                }
+                targetRow = (value - 1) / state.length;
+                targetCol = (value - 1) % state.length;
+                distance += Math.abs(row - targetRow) + Math.abs(col - targetCol);
+                
+                if (row == targetRow) {
+                    for (int i = col + 1; i < state.length; i++) {
+                        int otherValue = state[row][i];
+                        if (otherValue != 0 && (otherValue - 1) / state.length == targetRow &&
+                                otherValue < value) {
+                            distance += 2;
+                        }
+                    }
+                }
+                if (col == targetCol) {
+                    for (int i = row + 1; i < state.length; i++) {
+                        int otherValue = state[i][col];
+                        if (otherValue != 0 && (otherValue - 1) % state.length == targetCol &&
+                                otherValue < value) {
+                            distance += 2;
+                        }
+                    }
                 }
             }
+            
+            
         }
         return distance;
     }
@@ -88,7 +103,7 @@ public class Node implements Comparable<Node> {
 
 	@Override
 	public int compareTo(Node other) {
-        return Integer.compare(this.f, other.f);
+        return Integer.compare(this.h, other.h);
     }
 
 	public void setParent(Node current) {

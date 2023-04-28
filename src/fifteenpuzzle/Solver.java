@@ -18,7 +18,7 @@ public class Solver {
 		HashMap<Node,Node> closed = new HashMap<>();
 		
 		Node start = new Node(game.getBoard(), null, "initial");
-		int[][] goalBoard = generateGoalBoard(game.getN());
+		byte[][] goalBoard = generateGoalBoard(game.getN());
 		
 		open.add(start);
 		closed.put(start,start);
@@ -54,7 +54,7 @@ public class Solver {
         return path;
     }
 
-	private static List<Node> generateNeighbors(Node node, int[][] goalBoard) {
+	private static List<Node> generateNeighbors(Node node, byte[][] goalBoard) {
 		// TODO Auto-generated method stub
 		List<Node> neighbors = new ArrayList<Node>();
 		int n = node.getState().length;
@@ -86,7 +86,7 @@ public class Solver {
 	        int newBlankRow = blankRow + dir[0]; //for example, first iterate through directions[0], dir[0] = -1, dir[1]=0 => that means going up => finding the new position of number 0
 	        int newBlankCol = blankCol + dir[1]; //use this position later on to swap 
 	        if (newBlankRow >= 0 && newBlankRow < n && newBlankCol >= 0 && newBlankCol < n) {
-	            int[][] newState = new int[n][n];
+	            byte[][] newState = new byte[n][n];
 	            for (int i = 0; i < n; i++) {
 	                for (int j = 0; j < n; j++) {
 	                    newState[i][j] = node.getState()[i][j]; //copy the current state into newState(which later swap the position with the adjacent tile
@@ -127,12 +127,12 @@ public class Solver {
         writer.close();
     }
     
-    public static int[][] generateGoalBoard(int n){
-    	int[][] goal = new int[n][n];
+    public static byte[][] generateGoalBoard(int n){
+    	byte[][] goal = new byte[n][n];
     	int count = 1;
     	for(int i = 0;i<n;i++) {
     		for(int j =0;j<n;j++) {
-    			goal[i][j] = count;
+    			goal[i][j] = (byte) count;
     			count = (count + 1) % (n * n);
     		}
     	}

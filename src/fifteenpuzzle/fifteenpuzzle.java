@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class fifteenpuzzle {
 	int n;
-	int board[][];
+	byte board[][];
 
 
 	/**
@@ -22,7 +22,7 @@ public class fifteenpuzzle {
 
 		n = Integer.parseInt(br.readLine());
 		
-		board = new int[n][n];
+		board = new byte[n][n];
 		int c1, c2, s;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
@@ -36,7 +36,7 @@ public class fifteenpuzzle {
 					c1 = '0';
 				if (c2 == ' ')
 					c2 = '0';
-				board[i][j] = 10 * (c1 - '0') + (c2 - '0');
+				board[i][j] = (byte) (10 * (c1 - '0') + (c2 - '0'));
 			}
 		}
 
@@ -57,7 +57,7 @@ public class fifteenpuzzle {
 		return n;
 	}
 	
-	public int[][] getBoard(){
+	public byte[][] getBoard(){
 		return board;
 	}
 }
